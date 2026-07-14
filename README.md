@@ -4,6 +4,25 @@ Open Occupation Blueprint for **ISCO-08 3321**: Insurance Representatives.
 
 This repository designs a forkable OSS business for an independent insurance brokerage practice: a document-handling and policy-binder robot manages policy documents under a governor-gated actor, so the practice keeps its own policy and claims records instead of renting a closed insurance-agency SaaS.
 
+**Maturity: `:implemented`.** `src/insurance/` implements the
+`InsuranceBrokerageActor` as a `langgraph.graph/state-graph`
+(`insurance.actor`) wired to an `Insurance Advisor` (`insurance.advisor`)
+and an independent `InsuranceBrokerageGovernor` (`insurance.governor`),
+following the itonami actor pattern (ADR-2607011000): `:intake -> :advise
+-> :govern -> :decide -+-> :commit (:ok?) +-> :request-approval (:escalate?,
+human-in-the-loop interrupt) +-> :hold (:hard?)`. 14 tests / 29 assertions
+green (`clojure -M:test`). HARD invariants (always hold, never
+overridable): client provenance, no-actuation (`:effect` must be
+`:propose`), a registered application basis for any policy-binding
+proposal, the proposed coverage amount not exceeding the application's
+registered coverage-limit ceiling (binding coverage beyond it is
+unauthorized underwriting, not generous coverage), and an attached
+risk disclosure before any policy can be bound (binding without one is
+undisclosed coverage, not efficient service). Always-escalate ops
+(human sign-off regardless of confidence, mapping this repo's Trust
+Controls in [`docs/business-model.md`](docs/business-model.md)):
+`:approve-over-limit-binding` and `:approve-claims-settlement`.
+
 ## Robotics premise
 
 All cloud-itonami verticals are designed on the premise that a **robot performs
