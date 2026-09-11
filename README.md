@@ -11,7 +11,7 @@ and an independent `InsuranceBrokerageGovernor` (`insurance.governor`),
 following the itonami actor pattern (ADR-2607011000): `:intake -> :advise
 -> :govern -> :decide -+-> :commit (:ok?) +-> :request-approval (:escalate?,
 human-in-the-loop interrupt) +-> :hold (:hard?)`. 14 tests / 29 assertions
-green (`clojure -M:test`). HARD invariants (always hold, never
+green (`kbb -M:test`). HARD invariants (always hold, never
 overridable): client provenance, no-actuation (`:effect` must be
 `:propose`), a registered application basis for any policy-binding
 proposal, the proposed coverage amount not exceeding the application's
