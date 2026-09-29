@@ -1,6 +1,6 @@
 (ns insurance.store
   "SSoT for the ISCO-08 3321 independent insurance brokerage practice
-  actor (itonami actor pattern, ADR-2607011000 / CLAUDE.md Actors
+  actor (itonami actor pattern, ADR-2607011000 / AGENTS.md Actors
   section; README's 'Robotics premise' — a document-handling and
   policy-binder robot performs policy printing, binder assembly and
   physical archival under this advisor/governor pair, which never
